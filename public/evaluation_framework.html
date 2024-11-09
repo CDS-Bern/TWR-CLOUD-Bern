@@ -16,6 +16,14 @@
 			margin: 20px 0;
 			font-size: 15px;
 		}
+
+		.icon-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 30px; /* Adjust gap as needed */
+			margin-top: 50px; /* Centers vertically with a top margin */
+		}
 	</style>
 
 	<body class="is-preload">
@@ -371,7 +379,33 @@
 
 								<h3>Loading an evaluation scenario</h3>
 
-								<p>The dataset can be loaded in Python using the pickle module:</p>
+								<p class="jtext">
+									To facilitate rapid integration and utilization of the evaluation scenarios provided
+									by TWR-CLOUD-Bern, we offer a sample parser that can load and iterate through the
+									available scenario files. This parser is available in both Python and Java, allowing
+									researchers to adapt the script to their specific requirements.:
+								</p>
+
+								<div class="icon-container">
+									<a href="content/scripts/EvalScenarioParser.py" target="_blank" title="Python Script">
+										<img src="https://www.python.org/static/community_logos/python-logo-inkscape.svg"
+											 alt="Python Icon" style="height:100px;">
+									</a>
+
+									<a href="content/scripts/EvalScenarioParser.java" target="_blank" title="Java Script">
+										<img src="https://upload.wikimedia.org/wikipedia/en/3/30/Java_programming_language_logo.svg"
+											 alt="Java Icon" style="height:100px;">
+									</a>
+								</div>
+
+								<br>
+
+								<p class="jtext">
+									Each supplied script demonstrates the parsing of the evaluation scenario
+									<code>6905</code> and outputs the node configuration details as follows:
+								</p>
+
+								<script src="https://gist.github.com/Geogouz/2e9040e3b59e85c61cc69d18fac66cd4.js"></script>
 
 							</div>
 						</section>
