@@ -1,0 +1,409 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Methodology</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+
+
+	<style>
+		.algorithm-container {
+			display: flex;
+			width: 100%;
+			margin: 20px 0;
+		}
+
+		.algorithm-table {
+			width: auto;
+			max-width: 700px;
+			border-collapse: collapse;
+			font-size: 0.9em;
+		}
+
+		.algorithm-table th, .algorithm-table td {
+			text-align: left;
+		}
+
+		.algorithm-table th {
+			background-color: #f2f2f2;
+			font-weight: bold;
+		}
+
+		.algorithm-table tr:nth-child(even) {
+			background-color: #f9f9f9;
+		}
+
+		.algorithm-table strong {
+			color: #0058cc;
+		}
+
+		.algorithm-table i{
+			color: #cc0074;
+		}
+
+		.algorithm-table em {
+			color: #999;
+			font-style: italic;
+		}
+
+		@media (max-width: 600px) {
+			.algorithm-table {
+				font-size: 0.8em;
+			}
+		}
+
+		.note {
+			background-color: #f8f9fa;
+			border-left: 4px solid #3498db;
+			padding: 15px;
+			margin: 20px 0;
+			font-size: 15px;
+		}
+	</style>
+
+
+	<body>
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+				<header id="header">
+					<h1>TWR-CLOUD-Bern</h1>
+					<nav id="naiv">
+						<ul>
+							<li class="special">
+								<a href="#menu" class="menuToggle"><span>Menu</span></a>
+								<div id="menu">
+									<ul>
+										<li><a href="index.html"><img src="content/images/home.png" alt="Home TWR-CLOUD-Bern" style="width:15px; vertical-align:middle; margin-right:5px;"> Home</a></li>
+										<li><a class="icon fa-lightbulb" href="methodology.html">Methodology</a></li>
+										<li><a class="icon fa-list-alt" href="dataset.html">Dataset</a></li>
+										<li><a class="icon fa-chart-bar" href="evaluation_framework.html">Evaluation Framework</a></li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</nav>
+				</header>
+
+				<!-- Main -->
+					<article id="main">
+						<section class="wrapper style5">
+							<div class="inner">
+
+								<h2>Methodology</h2>
+
+								<p class="jtext">
+									The experimental design and procedures used to produce the dataset, including node
+									deployment and data collection.
+								</p>
+								<div class="col-12"><span class="image fit"><img src="content/images/methodology.png" alt="" /></span></div>
+
+								<hr />
+
+								<h3>Equipment</h3>
+
+								<ul>
+									<li>40 <a href="content/raspberry-pi-zero-2-w-product-brief.pdf" target="_blank">Raspberry Pi Zero 2W</a> nodes</li>
+									<li>40 <a href="https://www.qorvo.com/products/p/DWM3001CDK" target="_blank" rel="noreferrer noopener">DWM3001CDK development kits</a> (featuring the <a href="https://www.qorvo.com/products/p/DWM3001C" target="_blank" rel="noreferrer noopener">DWM3001C UWB module</a>)</li>
+									<li>2 rotating mounts (360 degrees in 10s and 5m respectively)</li>
+									<li><a href="content/raspberry-pi-zero-2-w-product-brief.pdf" target="_blank">Leica BLK360</a> Imaging Laser Scanner</li>
+									<li>40 Tripods</li>
+								</ul>
+
+								<br>
+
+								<table class="compact-table">
+									<thead>
+									<tr>
+										<th>Ultra-wideband Specification</th>
+										<th>Value</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<td>Channel</td>
+										<td>5</td>
+									</tr>
+									<tr>
+										<td>TX Preamble length</td>
+										<td>128</td>
+									</tr>
+									<tr>
+										<td>RX Preamble acquisition chunk (PAC) size</td>
+										<td>8</td>
+									</tr>
+									<tr>
+										<td>TX preamble code</td>
+										<td>9</td>
+									</tr>
+									<tr>
+										<td>RX preamble code</td>
+										<td>9</td>
+									</tr>
+									<tr>
+										<td>Start of Frame delimiter (SFD) type</td>
+										<td>8 symbols (4z)</td>
+									</tr>
+									<tr>
+										<td>Bit rate</td>
+										<td>6.8 Mbits/s</td>
+									</tr>
+									<tr>
+										<td>PHY header mode</td>
+										<td>Standard PHR mode</td>
+									</tr>
+									<tr>
+										<td>PHY header rate</td>
+										<td>Standard PHR rate</td>
+									</tr>
+									<tr>
+										<td>RX Start of Frame delimiter (SFD) timeout</td>
+										<td>129 + 8 (SFD) - 8 (PAC)</td>
+									</tr>
+									<tr>
+										<td>Scrambled Timestamp Sequence</td>
+										<td>OFF</td>
+									</tr>
+									<tr>
+										<td>Phase difference of arrival</td>
+										<td>OFF</td>
+									</tr>
+									</tbody>
+								</table>
+
+								<p class="jtext">
+									The control and monitoring of the nodes was performed remotely through our
+									node-management app, and via a websocket service running on our server to which the
+									nodes were connected.
+									This service was also responsible for the collection of all ranging statistics and
+									metadata transferred from the nodes during the measurement survey.
+								</p>
+
+								<hr />
+
+								<h3>Ranging Protocol</h3>
+
+								<p class="jtext">
+									The simplest Two-Way Ranging (TWR) protocol involves two timestamped messages
+									exchanged between a poller and a responder. This allows the poller to make a basic
+									estimation of the distance between them, a method known as single-sided two-way
+									ranging (SS-TWR). For improved accuracy, however, a third message can be introduced,
+									creating the double-sided two-way ranging (DS-TWR) protocol, which lets the
+									responder refine the distance estimate by accounting for timing discrepancies.
+									In our deployment, we added a fourth message, sending this enhanced estimate back to
+									the poller, supporting broader applications such as cooperative localization where
+									both nodes benefit from finer precision.
+								</p>
+
+								<div class="note">
+								<p class="jtext">
+									The following visualization illustrates the impact of these additional messages on
+									error reduction in TWR. Picture each of the three lines as a synchronized timeline
+									in separate “clock universes”: Node A, the initiator of the ranging process, follows
+									the red line; Node B, the responder, operates on the blue line; and the central
+									black line represents the “real” clock, the universal time reference that ideally
+									aligns them both. However, due to differences in their reference times and rates of
+									change, the same event appears to occur at different times across these universes.
+								</p>
+
+								<p class="jtext">
+									As Node A initiates the ranging by sending a signal, Node B receives it in its own
+									clock universe, where time flows differently. This desynchronization causes both
+									nodes to perceive the duration of events differently: Node A measures the round-trip
+									time according to its clock, while Node B logs its processing time according to its
+									own. Consequently, each repeated event, though identical in “reality,” introduces
+									growing discrepancies in their perceived durations.
+								</p>
+
+								<p class="jtext">
+									At this point, we are in the SS-TWR scenario. Here, Node A calculates the round-trip
+									time, while Node B records its response time, but neither can determine the true
+									signal propagation time without compensating for the temporal differences. These
+									calculations show that Node B’s processing delay  d_1  is a major source of error in
+									SS-TWR.
+								</p>
+
+								<p class="jtext">
+									By moving to DS-TWR, however, we can significantly reduce this error. The additional
+									message exchange helps compensate for the disparity in clocks and reference points,
+									reducing the remaining error to the difference in processing times, which minimizes
+									noise and allows for a more accurate measurement of the true distance between nodes.
+								</p>
+
+								<video autoplay loop controls width="100%" muted>
+									<source src="content/ranging_error.mp4" type="video/mp4">
+									Your browser does not support the video tag.
+								</video>
+								</div>
+
+								<br>
+
+								<p class="jtext">
+									Our offered measurements are complemented by supportive metadata and statistics per
+									node, that describe the success rate of the UWB messages at second [s] granularity.
+									The overall data collection and ranging mechanism, which operates in a fully
+									unsynchronized manner without any time-division coordination or channel access
+									scheduling, can be summarized as shown in the provided Algorithm below. In this
+									implementation, each node alternates between poller and responder mode at six
+									different listening periods, continuously attempting rangings without central
+									coordination. While this approach leads to increased message collisions, it
+									represents a more realistic scenario for large-scale deployments where maintaining
+									time synchronization across all nodes would be impractical or too costly. The
+									consideration of different listening periods was used to enable assessments on the
+									impact of these collisions, which have a direct Quality of service impact in RTLSs.
+								</p>
+
+								<div class="algorithm-container">
+									<table class="algorithm-table">
+										<tbody>
+										<tr>
+											<td colspan="2">
+												<b><i>Define:</i></b><br>
+												listening_periods_ms ← {1, 5, 10, 20, 30, 40, 50}<br>
+												neighbors ← {1, 2, ..., 40} <em>// All except self</em><br>
+												successful_rangings ← Map structure
+											</td>
+										</tr>
+										<tr>
+											<td colspan="2">
+												<b><i>Parallel Process</i>></b> (Every 1 sec)<strong>:</strong><br>
+												reset successful_rangings
+											</td>
+										</tr>
+
+										<tr>
+											<td colspan="2">
+												<strong>For each</strong> period <strong>in</strong> listening_periods_ms:
+											</td>
+										</tr>
+										<tr>
+											<td style="padding-left: 30px;" colspan="2">
+												<strong>While</strong> 2 minutes have not passed:
+											</td>
+										</tr>
+										<tr>
+											<td style="padding-left: 60px;" colspan="2">
+												<strong>For each</strong> neighbor <strong>in</strong> neighbors:
+											</td>
+										</tr>
+										<tr>
+											<td style="padding-left: 90px;" colspan="2">
+												<strong>If</strong> neighbor <strong>not in</strong> successful_rangings:
+											</td>
+										</tr>
+										<tr>
+											<td style="padding-left: 120px;" colspan="2">
+												performRangingAsPoller(neighbor)
+											</td>
+										</tr>
+										<tr>
+											<td style="padding-left: 60px;" colspan="2">
+												<strong>While</strong> period not passed:
+											</td>
+										</tr>
+										<tr>
+											<td style="padding-left: 90px;" colspan="2">
+												respondToIncomingRangingPoll()
+											</td>
+										</tr>
+										<tr>
+											<td style="padding-left: 60px;" colspan="2">
+												update successful_rangings
+											</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<hr />
+
+								<h3>Node Deployment and Measurement Collection</h3>
+
+								<p class="jtext">
+									The 40 UWB nodes were deployed throughout the entire first floor of the Engehalde
+									learning building at the University of Bern, covering an area of 500 square meters.
+									The data collection encompassed a total of 12 scans, comprising 11 training scans
+									for range analysis and model development, alongside a single evaluation scan
+									designed for the assessment of ranging models and positioning methods, adhering to
+									the TWR-Cloud-Bern evaluation framework.
+								</p>
+
+								<p class="jtext">
+									For the experimental setup, 170 deployment points were uniformly selected across the
+									test environment (see Figure below), with the positions documented using a Leica
+									BLK360 Imaging Laser Scanner to establish ground truths. Out of these, 40 positions
+									(indicated as yellow & green points) were allocated exclusively for the evaluation
+									scan, whereas the remaining 130 positions were utilized during the training scans.
+									Within the 130 positions utilized for training, two central locations were
+									consistently occupied by two stationary nodes equipped with 360-degree rotating
+									mounts. These operated at intervals of 5 minutes (position 165) and 10 seconds
+									(position 166) respectively, allowing for the examination of the effects of node
+									orientation (rotating versus fixed) on data quality. For the gathering of training
+									data, the remaining 38 nodes were uniformly shuffled and redeployed across the 128
+									available positions (excluding the two central positions) 11 times, ensuring diverse
+									coverage. Given the expansive scope of the deployment environment, challenges such
+									as NLOS conditions and transmission collisions are anticipated to occur
+									sporadically.
+								</p>
+
+								<div class="col-12">
+									Node Deployment Map
+									<span class="image fit">
+										<img src="content/images/node_deployment.jpg" alt="Node Deployment Map" />
+									</span>
+								</div>
+
+								<div class="col-12">
+									LiDAR Scan of the Environment
+									<span class="image fit">
+										<a href="content/images/LiDAR_Scan_HQ.jpg" target="_blank">
+											<img src="content/images/LiDAR_Scan_LQ.jpg" alt="LiDAR Scan of the Environment" />
+										</a>
+									</span>
+								</div>
+
+							</div>
+						</section>
+					</article>
+
+				<!-- CTA -->
+				<section class="wrapper style4">
+					<div class="inner" style="display: flex; align-items: center;">
+						<div class="text-content" style="flex: 1; text-align: right; padding-right: 20px;">
+							<header>
+								<h2>Contact</h2>
+								<p>firstname.lastname@unibe.ch</p>
+								<a href="content/twrcloudbern2024.bib" download="twrcloudbern2024.bib">BibTeX entry</a>
+							</header>
+						</div>
+						<div class="image-container" style="display: flex; justify-content: flex-start; gap: 20px;">
+							<div style="text-align: center;">
+								<img src="content/images/authors/Xenakis.png" alt="Dimitrios Xenakis" style="width: auto; height: 150px;">
+							</div>
+							<div style="text-align: center;">
+								<img src="content/images/authors/DiMaio.png" alt="Antonio Di Maio" style="width: auto; height: 150px;">
+							</div>
+							<div style="text-align: center;">
+								<img src="content/images/authors/Braun.png" alt="Torsten Braun" style="width: auto; height: 150px;">
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

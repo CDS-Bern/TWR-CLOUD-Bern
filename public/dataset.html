@@ -1,0 +1,526 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Dataset</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<link rel="stylesheet"
+			  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+		<script>hljs.initHighlightingOnLoad();</script>
+	</head>
+
+	<style>
+		.note {
+			background-color: #f8f9fa;
+			border-left: 4px solid #3498db;
+			padding: 15px;
+			margin: 20px 0;
+			font-size: 15px;
+		}
+	</style>
+
+	<body>
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+				<header id="header">
+					<h1>TWR-CLOUD-Bern</h1>
+					<nav id="naiv">
+						<ul>
+							<li class="special">
+								<a href="#menu" class="menuToggle"><span>Menu</span></a>
+								<div id="menu">
+									<ul>
+										<li><a href="index.html"><img src="content/images/home.png" alt="Home TWR-CLOUD-Bern" style="width:15px; vertical-align:middle; margin-right:5px;"> Home</a></li>
+										<li><a class="icon fa-lightbulb" href="methodology.html">Methodology</a></li>
+										<li><a class="icon fa-list-alt" href="dataset.html">Dataset</a></li>
+										<li><a class="icon fa-chart-bar" href="evaluation_framework.html">Evaluation Framework</a></li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</nav>
+				</header>
+
+				<!-- Main -->
+					<article id="main">
+						<section class="wrapper style5">
+							<div class="inner">
+
+								<h2>Dataset</h2>
+
+								<p class="jtext">
+									Full presentation of the dataset structure, including statistical tables, with
+									instructions on accessing and interpreting the data.
+								</p>
+
+								<div class="col-12"><span class="image fit"><img src="content/images/dataset.jpg" alt="" /></span></div>
+
+								<hr />
+
+								<h3>Overview</h3>
+
+								<p>
+									The dataset is hosted on
+									<a href="https://doi.org/10.5281/zenodo.14029378" target="_blank">Zenodo</a> and has
+									been divided into four main components:
+								</p>
+
+								<ol>
+									<li>Ranging Measurements at Responder Sides (<code>Rangings at Responders.pkl</code>)</li>
+									<li>Ranging Measurements at Poller Sides (<code>Rangings at Pollers.pkl</code>)</li>
+									<li>Responder Statistics (<code>Rangings at Responders (Stats).pkl</code>)</li>
+									<li>Poller Statistics (<code>Rangings at Pollers (Stats).pkl</code>)</li>
+								</ol>
+
+								<p class="jtext">
+									The <code>Rangings at Responders.pkl</code> and <code>Rangings at Pollers.pkl</code>
+									datasets contain Time-of-Flight measurements based on the implemented 4-message TWR
+									protocol (see <code>Ranging Protocol</code> section in
+									<a href="methodology.html">Methodology</a>), captured from both responder
+									and poller perspectives. The responder dataset contains measurements calculated at
+									the responders' sides after the third message is received, while the poller dataset
+									only includes measurements where this enhanced estimate was successfully delivered
+									back to the poller via the fourth message. As a result,
+									<code>Rangings at Pollers.pkl</code> is effectively a subset of
+									<code>Rangings at Responders.pkl</code>, excluding cases where the fourth message
+									failed to reach the poller due to collisions or other transmission issues. This
+									difference in measurement counts not only provides insight into the reliability
+									of message delivery, but also enables simulations requiring end-to-end enhanced
+									ranging.
+								</p>
+
+								<p class="jtext">
+									The <code>Rangings at Responders (Stats).pkl</code> and
+									<code>Rangings at Pollers (Stats).pkl</code> provide detailed performance metrics
+									captured at one-second intervals during the measurement campaign. The responder
+									statistics track each node's performance when operating in responder mode, recording
+									the number of successful responses, total response attempts, and message failures at
+									different stages of the TWR protocol. Similarly, the poller statistics document each
+									node's polling performance, including successful polls, total polling attempts, and
+									message failures. Notably, the nodes operate in a fully unsynchronized manner,
+									continuously attempting rangings without any time-division coordination or channel
+									access scheduling. While this approach results in numerous failed attempts due to
+									collisions, it represents a crucial real-world scenario where time synchronization
+									infrastructure is unavailable or impractical. With approximately 330,000 statistical
+									records per table spanning all 12 scans, these datasets enable detailed analysis of
+									protocol resilience and network performance under realistic contention conditions.
+								</p>
+
+								<div class="note">
+									<h3>Notes</h3>
+									<ul>
+										<li>All position coordinates are provided in meters relative to a local coordinate system</li>
+									</ul>
+								</div>
+
+								<hr />
+
+								<h3>Ranging Measurement Tables</h3>
+
+								<h4>Responder Measurements (<code>Rangings at Responders.pkl</code>)</h4>
+								<p class="jtext">
+									Contains ~2.1M measurements recorded by nodes operating in responder mode during the
+									TWR exchanges. Each measurement represents a successful ranging calculation after
+									receiving the third message of the protocol.
+								</p>
+
+								<table class="compact-table">
+									<tr>
+										<th>Column</th>
+										<th>Type</th>
+										<th>Unit</th>
+										<th>Description</th>
+									</tr>
+									<tr>
+										<td>Scan_ID</td>
+										<td>int</td>
+										<td>-</td>
+										<td>Survey scan identifier (1-11 for training, 12 for evaluation)</td>
+									</tr>
+									<tr>
+										<td>Timestamp</td>
+										<td>int</td>
+										<td>[ns]</td>
+										<td>Unix timestamp when ranging measurement was recorded</td>
+									</tr>
+									<tr>
+										<td>Listening_Period</td>
+										<td>int</td>
+										<td>[ms]</td>
+										<td>Period (1,5,10,20,30,40,50) defining how long the node listens for incoming ranging requests in its responding phase, before alternating back to poller role</td>
+									</tr>
+									<tr>
+										<td>Responder_ID</td>
+										<td>int</td>
+										<td>-</td>
+										<td>Identifier of the responding node (1-40)</td>
+									</tr>
+									<tr>
+										<td>Responder_Pos_ID</td>
+										<td>int</td>
+										<td>-</td>
+										<td>Deployment position identifier for responder (1-170) <a href="javascript:void(window.open('content/images/node_deployment.jpg', '_blank'));">[Map]</a></td>
+									</tr>
+									<tr>
+										<td>Responder_X/Y/Z</td>
+										<td>float</td>
+										<td>[m]</td>
+										<td>Ground truth coordinates of responder from LiDAR scan</td>
+									</tr>
+									<tr>
+										<td>Poller_ID</td>
+										<td>int</td>
+										<td>-</td>
+										<td>Identifier of the polling node (1-40)</td>
+									</tr>
+									<tr>
+										<td>Poller_Pos_ID</td>
+										<td>int</td>
+										<td>-</td>
+										<td>Deployment position identifier for poller (1-170)</td>
+									</tr>
+									<tr>
+										<td>Poller_X/Y/Z</td>
+										<td>float</td>
+										<td>[m]</td>
+										<td>Ground truth coordinates of poller from LiDAR scan</td>
+									</tr>
+									<tr>
+										<td>Node_Distance_3D</td>
+										<td>float</td>
+										<td>[cm]</td>
+										<td>True Euclidean distance between nodes based on ground truth positions</td>
+									</tr>
+									<tr>
+										<td>ToF</td>
+										<td>float</td>
+										<td>[ns]</td>
+										<td>Measured Time of Flight from TWR exchange</td>
+									</tr>
+									<tr>
+										<td>Class</td>
+										<td>string</td>
+										<td>-</td>
+										<td>Dataset split indicator ("Train" or "Eval")</td>
+									</tr>
+								</table>
+
+								<div class="note">
+									<p class="jtext">
+										The following animation visualizes for different Time-of-Flight (ToF) groups
+										in the <code>Rangings at Responders.pkl</code> dataset, the relationship between
+										measured values and true distances, providing insight into the ranging
+										measurement characteristics. Researchers are welcome to use our measurements to
+										conduct deeper statistical analyses, characterize measurement uncertainties
+										across different distances and locations, or develop custom ranging models
+										tailored to their specific applications.
+									</p>
+
+									<div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+										<video autoplay loop controls width="600px" muted>
+											<source src="content/ranging_distribution.mp4" type="video/mp4">
+											Your browser does not support the video tag.
+										</video>
+									</div>
+								</div>
+
+								<br>
+
+								<h4>Poller Measurements (<code>Rangings at Pollers.pkl</code>)</h4>
+								<p class="jtext">
+									Contains ~1.9M measurements recorded by nodes operating in poller mode. Each
+									measurement represents a complete TWR exchange where the enhanced ranging estimate
+									was successfully received via the fourth message. The table structure is identical
+									to the responder measurements but from the poller's perspective, with matching
+									column names and data types.
+								</p>
+
+								<div class="note">
+									<h4>Relationship Between Tables</h4>
+									<ul>
+										<li>The responder measurements (~2.1M entries) form a superset of the poller measurements (~1.9M entries)</li>
+										<li>The difference in entries (~300K) represents TWR exchanges where the enhanced estimate was calculated at the responder but the fourth message failed to reach the poller</li>
+										<li>Each successful poller measurement has a corresponding responder measurement with matching timestamp and swapped node IDs</li>
+										<li>All measurements were collected under unsynchronized operation, with nodes continuously attempting ranges without coordinated scheduling</li>
+									</ul>
+								</div>
+
+								<hr />
+
+								<h3>Statistics Tables</h3>
+
+								<p class="jtext">
+									During each 1-second monitoring window, nodes alternate multiple times between
+									responding and polling roles, continuously collecting performance metrics for both
+									modes of operation in an unsynchronized communication scheme.
+								</p>
+
+								<h4>Responder Statistics (<code>Rangings at Responders (Stats).pkl</code>)</h4>
+								<p class="jtext">
+									Tracks the number of received ranging requests, successful responses, and message
+									failures that occurred while node was operating as responder within each 1-second
+									window.
+								</p>
+
+								<table class="compact-table">
+									<tr>
+										<th>Column</th>
+										<th>Type</th>
+										<th>Unit</th>
+										<th>Description</th>
+									</tr>
+									<tr>
+										<td>Scan_ID</td>
+										<td>int</td>
+										<td>-</td>
+										<td>Survey scan identifier (1-11 for training, 12 for evaluation)</td>
+									</tr>
+									<tr>
+										<td>Timestamp</td>
+										<td>int</td>
+										<td>[ns]</td>
+										<td>Unix timestamp marking when node reported its operational statistics for the previous 1-second period</td>
+									</tr>
+									<tr>
+										<td>Listening_Period</td>
+										<td>int</td>
+										<td>[ms]</td>
+										<td>Period (1,5,10,20,30,40,50) defining how long the node listens for incoming ranging requests in its responding phase, before alternating back to poller role</td>
+									</tr>
+									<tr>
+										<td>Responder_ID</td>
+										<td>int</td>
+										<td>-</td>
+										<td>ID of the node operating in responder mode (1-40)</td>
+									</tr>
+									<tr>
+										<td>Responder_Pos_ID</td>
+										<td>int</td>
+										<td>-</td>
+										<td>Position ID from where the node is responding (1-170) <a href="javascript:void(window.open('content/images/node_deployment.jpg', '_blank'));">[Map]</a></td>
+									</tr>
+									<tr>
+										<td>Responder_X/Y/Z</td>
+										<td>float</td>
+										<td>[m]</td>
+										<td>Ground truth coordinates of responder position</td>
+									</tr>
+									<tr>
+										<td>Successful Responds</td>
+										<td>int</td>
+										<td>count</td>
+										<td>
+											Count of TWR exchanges where responder completed all four messages (received
+											TX1, sent TX2, received TX3, and sent TX4 transmission) during this 1-second
+											window
+										</td>
+									</tr>
+									<tr>
+										<td>Responding Attempts</td>
+										<td>int</td>
+										<td>count</td>
+										<td>
+											Each time the node operates as responder, it activates its radio to listen
+											for incoming ranging requests. This counter tracks how many such listening
+											attempts occurred during this 1-second window. A listening attempt begins
+											when the radio is enabled and ends when either a ranging request is detected
+											or a timeout occurs, after which the node immediately starts another
+											listening attempt. This process repeats continuously throughout the
+											responding period.
+										</td>
+									</tr>
+									<tr>
+										<td>No Valid TX1</td>
+										<td>int</td>
+										<td>count</td>
+										<td>
+											Count of failed message receptions during initial listening phase of
+											responding mode in this 1-second window. Incremented when: no signal was
+											detected within timeout, a corrupted frame was received, or received frame
+											wasn't a valid TX1 message.
+										</td>
+									</tr>
+									<tr>
+										<td>No Valid TX3</td>
+										<td>int</td>
+										<td>count</td>
+										<td>Count of failed message receptions while awaiting TX3 messages after having
+											sent TX2 responses in this 1-second window. Incremented when: no signal was
+											detected within timeout, a corrupted frame was received, or received frame
+											wasn't a valid TX3 message
+										</td>
+									</tr>
+									<tr>
+										<td>Class</td>
+										<td>string</td>
+										<td>-</td>
+										<td>Dataset split indicator ("Train" or "Eval")</td>
+									</tr>
+								</table>
+
+								<h4>Poller Statistics (<code>Rangings at Pollers (Stats).pkl</code>)</h4>
+								<p class="jtext">
+									Tracks the number of initiated ranging requests, completed exchanges, and message
+									failures that occurred while node was operating as poller within each 1-second
+									window.
+								</p>
+
+								<table class="compact-table">
+									<tr>
+										<th>Column</th>
+										<th>Type</th>
+										<th>Unit</th>
+										<th>Description</th>
+									</tr>
+									<tr>
+										<td>Scan_ID</td>
+										<td>int</td>
+										<td>-</td>
+										<td>Survey scan identifier (1-11 for training, 12 for evaluation)</td>
+									</tr>
+									<tr>
+										<td>Timestamp</td>
+										<td>int</td>
+										<td>[ns]</td>
+										<td>Unix timestamp marking when node reported its operational statistics for the previous 1-second period</td>
+									</tr>
+									<tr>
+										<td>Listening_Period</td>
+										<td>int</td>
+										<td>[ms]</td>
+										<td>Period (1,5,10,20,30,40,50) defining how long the node listens for incoming ranging requests in its responding phase, before alternating back to poller role</td>
+									</tr>
+									<tr>
+										<td>Poller_ID</td>
+										<td>int</td>
+										<td>-</td>
+										<td>ID of the node operating in poller mode (1-40)</td>
+									</tr>
+									<tr>
+										<td>Poller_Pos_ID</td>
+										<td>int</td>
+										<td>-</td>
+										<td>Position ID from where the node is polling (1-170) <a href="javascript:void(window.open('content/images/node_deployment.jpg', '_blank'));">[Map]</a></td>
+									</tr>
+									<tr>
+										<td>Poller_X/Y/Z</td>
+										<td>float</td>
+										<td>[m]</td>
+										<td>Ground truth coordinates of poller position</td>
+									</tr>
+									<tr>
+										<td>Successful Polls</td>
+										<td>int</td>
+										<td>count</td>
+										<td>Count of TWR exchanges fully completed as poller (sent TX1 &amp TX3, received TX2 &amp enhanced estimate via TX4) within this 1-second window</td>
+									</tr>
+									<tr>
+										<td>Polling Attempts</td>
+										<td>int</td>
+										<td>count</td>
+										<td>
+											Each time the node operates as poller, it attempts to initiate a ranging
+											exchange by preparing and trying to transmit a poll message (TX1) to a
+											neighbor. This counter tracks how many such ranging initiations were
+											attempted during this 1-second window, regardless of whether the message was
+											successfully transmitted or whether the complete exchange succeeded. The
+											node continuously makes these attempts throughout its polling period,
+											cycling through its neighbor list.
+										</td>
+									</tr>
+									<tr>
+										<td>No Valid TX2</td>
+										<td>int</td>
+										<td>count</td>
+										<td>
+											Count of failed message receptions while awaiting TX2 responses (after
+											sending TX1) during this 1-second window, including timeouts, corrupted
+											frames, or non-TX2 messages
+										</td>
+									</tr>
+									<tr>
+										<td>No Valid TX4</td>
+										<td>int</td>
+										<td>count</td>
+										<td>
+											Count of failed message receptions while awaiting TX4 messages with enhanced
+											estimates (after sending TX3) during this 1-second window, including
+											timeouts, corrupted frames, or non-TX4 messages
+										</td>
+									</tr>
+									<tr>
+										<td>Class</td>
+										<td>string</td>
+										<td>-</td>
+										<td>Dataset split indicator ("Train" or "Eval")</td>
+									</tr>
+								</table>
+
+								<hr />
+
+								<h3>Loading the Dataset</h3>
+
+								<p>The dataset can be loaded in Python using the pickle module:</p>
+
+								<pre><code class="python">import pandas as pd
+
+# Load ranging measurements
+responding_measurements_df = pd.read_pickle("Rangings at Responders.pkl")
+polling_measurements_df = pd.read_pickle("Rangings at Pollers.pkl")
+
+# Load statistics
+responder_stats_df = pd.read_pickle("Rangings at Responders (Stats).pkl")
+poller_stats_df = pd.read_pickle("Rangings at Pollers (Stats).pkl")
+
+# Display first few rows of ranging measurements
+print(responding_measurements_df.head())</code></pre>
+
+								<h3>Data Filtering Example</h3>
+								<p>To filter measurements from the evaluation scan (Scan_ID 12):</p>
+								<pre><code class="python">eval_measurements = responding_measurements_df[responding_measurements_df['Scan_ID'] == 12]</code></pre>
+							</div>
+						</section>
+					</article>
+
+				<!-- CTA -->
+				<section class="wrapper style4">
+					<div class="inner" style="display: flex; align-items: center;">
+						<div class="text-content" style="flex: 1; text-align: right; padding-right: 20px;">
+							<header>
+								<h2>Contact</h2>
+								<p>firstname.lastname@unibe.ch</p>
+								<a href="content/twrcloudbern2024.bib" download="twrcloudbern2024.bib">BibTeX entry</a>
+							</header>
+						</div>
+						<div class="image-container" style="display: flex; justify-content: flex-start; gap: 20px;">
+							<div style="text-align: center;">
+								<img src="content/images/authors/Xenakis.png" alt="Dimitrios Xenakis" style="width: auto; height: 150px;">
+							</div>
+							<div style="text-align: center;">
+								<img src="content/images/authors/DiMaio.png" alt="Antonio Di Maio" style="width: auto; height: 150px;">
+							</div>
+							<div style="text-align: center;">
+								<img src="content/images/authors/Braun.png" alt="Torsten Braun" style="width: auto; height: 150px;">
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

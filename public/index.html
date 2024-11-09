@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>TWR-CLOUD-Bern</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="landing is-preload">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<h1>TWR-CLOUD-Bern</h1>
+						<nav id="naiv">
+							<ul>
+								<li class="special">
+									<a href="#menu" class="menuToggle"><span>Menu</span></a>
+									<div id="menu">
+										<ul>
+											<li><a href="index.html"><img src="content/images/home.png" alt="Home TWR-CLOUD-Bern" style="width:15px; vertical-align:middle; margin-right:5px;"> Home</a></li>
+											<li><a class="icon fa-lightbulb" href="methodology.html">Methodology</a></li>
+											<li><a class="icon fa-list-alt" href="dataset.html">Dataset</a></li>
+											<li><a class="icon fa-chart-bar" href="evaluation_framework.html">Evaluation Framework</a></li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Banner -->
+					<section id="banner">
+						<div class="inner">
+							<h2>TWR-CLOUD-Bern</h2>
+							<p>Two-Way-Ranging-based Cooperative Localization<br />
+								with an Open UWB Dataset<br />
+								from Bern-University</p>
+						</div>
+						<a href="#one" class="more scrolly"></a>
+					</section>
+
+				<!-- One -->
+					<section id="one" class="wrapper style1 special">
+						<div class="inner">
+							<header class="major">
+								<h3>Developed by the Communication and Distributed Systems<br />
+									research group at the University of Bern</h3>
+								<p>
+									TWR-CLOUD-Bern is the largest open-access, standardized dataset to date<br />
+									in terms of cooperative nodes performing cross-ranging, <br />
+									designed for researchers in wireless sensor networks (WSN), <br />
+									collaborative localization, and ultra-wideband (UWB) positioning.<br />
+									It enables <b>fair and reproducible evaluations of localization methods</b><br />
+									by providing a comprehensive dataset and evaluation framework<br />
+									that captures real-world environments.
+								</p>
+							</header>
+						</div>
+					</section>
+
+				<!-- Two -->
+					<section id="two" class="wrapper alt style2">
+						<section class="spotlight">
+							<div class="image"><img src="content/images/methodology.png" alt="Methodology" /></div><div class="content">
+								<h2>Methodology</h2>
+								<p>The experimental design and procedures used to produce the dataset, including node deployment and data collection.</p>
+							</div>
+						</section>
+						<section class="spotlight">
+							<div class="image"><img src="content/images/dataset.jpg" alt="Dataset" /></div><div class="content">
+								<h2>Dataset</h2>
+								<p>Full presentation of the dataset structure, including statistical tables, with instructions on accessing and interpreting the data.</p>
+							</div>
+						</section>
+						<section class="spotlight">
+							<div class="image"><img src="content/images/evaluation_framework.jpg" alt="Evaluation Framework" /></div><div class="content">
+								<h2>Evaluation Framework</h2>
+								<p>Instructions for evaluating positioning methods and developing ranging models using our measurements, including how to quantify performance for comparisons.</p>
+							</div>
+						</section>
+					</section>
+
+				<!-- Three -->
+					<section id="three" class="wrapper style3 special">
+						<div class="inner">
+							<header class="major">
+								<h2>TWR-Cloud-Bern Dataset at a Glance</h2>
+								<p>A snapshot with key details about the experimental setup, data collection process, and dataset structure.</p>
+							</header>
+							<ul class="features">
+								<li>
+									<h2>Environment</h2>
+									<p>500m² of indoor space at the institute of Computer science (Engehaldenstrasse 8).</p>
+								</li>
+								<li>
+									<h2>Nodes</h2>
+									<p>40 Raspberry Pi Zero 2W hosting a Qorvo DWM3001CDK UWB module (IEEE 802.15.4z compliant).</p>
+								</li>
+								<li>
+									<h2>Measurements</h2>
+									<p>Time-of-Flight (ToF) measurements and reception statistics between poller and responder nodes.</p>
+								</li>
+								<li>
+									<h2>Scans</h2>
+									<p>12 scan cycles conducted with random node placement, comprising 11 training and 1 evaluation scan.</p>
+								</li>
+								<li>
+									<h2>Ground truth</h2>
+									<p>3D coordinates recorded using a Leica BLK360 Imaging Laser Scanner.</p>
+								</li>
+								<li>
+									<h2>Data Structure</h2>
+									<p>Organized into pandas DataFrames and offered in pickle format for direct use in Python.</p>
+								</li>
+							</ul>
+						</div>
+					</section>
+
+				<!-- CTA -->
+				<section class="wrapper style4">
+					<div class="inner" style="display: flex; align-items: center;">
+						<div class="text-content" style="flex: 1; text-align: right; padding-right: 20px;">
+							<header>
+								<h2>Contact</h2>
+								<p>firstname.lastname@unibe.ch</p>
+								<a href="content/twrcloudbern2024.bib" download="twrcloudbern2024.bib">BibTeX entry</a>
+							</header>
+						</div>
+						<div class="image-container" style="display: flex; justify-content: flex-start; gap: 20px;">
+							<div style="text-align: center;">
+								<img src="content/images/authors/Xenakis.png" alt="Dimitrios Xenakis" style="width: auto; height: 150px;">
+							</div>
+							<div style="text-align: center;">
+								<img src="content/images/authors/DiMaio.png" alt="Antonio Di Maio" style="width: auto; height: 150px;">
+							</div>
+							<div style="text-align: center;">
+								<img src="content/images/authors/Braun.png" alt="Torsten Braun" style="width: auto; height: 150px;">
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

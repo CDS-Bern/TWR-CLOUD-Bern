@@ -1,0 +1,415 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Evaluation Framework</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+
+	<style>
+		.note {
+			background-color: #f8f9fa;
+			border-left: 4px solid #3498db;
+			padding: 15px;
+			margin: 20px 0;
+			font-size: 15px;
+		}
+	</style>
+
+	<body class="is-preload">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+				<header id="header">
+					<h1>TWR-CLOUD-Bern</h1>
+					<nav id="naiv">
+						<ul>
+							<li class="special">
+								<a href="#menu" class="menuToggle"><span>Menu</span></a>
+								<div id="menu">
+									<ul>
+										<li><a href="index.html"><img src="content/images/home.png" alt="Home TWR-CLOUD-Bern" style="width:15px; vertical-align:middle; margin-right:5px;"> Home</a></li>
+										<li><a class="icon fa-lightbulb" href="methodology.html">Methodology</a></li>
+										<li><a class="icon fa-list-alt" href="dataset.html">Dataset</a></li>
+										<li><a class="icon fa-chart-bar" href="evaluation_framework.html">Evaluation Framework</a></li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</nav>
+				</header>
+
+				<!-- Main -->
+					<article id="main">
+						<section class="wrapper style5">
+							<div class="inner">
+
+								<h2>Evaluation Framework</h2>
+
+								<p class="jtext">
+									Instructions for evaluating positioning methods and developing ranging models using
+									the TWR-CLOUD-Bern dataset, including how to quantify performance for comparisons.
+								</p>
+
+								<div class="col-12"><span class="image fit"><img src="content/images/evaluation_framework.jpg" alt="" /></span></div>
+
+								<hr />
+
+								<h3>Overview</h3>
+
+								<p class="jtext">
+									<a href="https://doi.org/10.5281/zenodo.14029378" target="_blank">TWR-Cloud-Bern</a>
+									provides ranging measurements that can support the development of empirical UWB
+									ranging models and the evaluation of indoor positioning systems. We specifically
+									propose a standardized evaluation framework that uses the
+									<code>Rangings at Responders.pkl</code> dataset to enable fair comparisons between
+									different localization methods. This evaluation framework supports three positioning
+									modes: <u>1) pure anchor-based positioning</u> (using only fixed reference nodes),
+									<u>2) cooperative positioning</u> (where nodes with unknown positions collaborate),
+									and <u>3) hybrid positioning</u> (combining both anchors and cooperation). Each
+									generated evaluation scenario (offered in <code>.json</code> format) contains the
+									necessary ranging measurements and position information to implement and assess any
+									of these three approaches. All evaluation scenarios are available in the Zenodo
+									repository in <a href="https://doi.org/10.5281/zenodo.14029378" target="_blank">
+									<code>TWR-CLOUD Bern Eval Scenarios.zip</code></a>, alongside the measurement
+									datasets (approximately 23GB when uncompressed). Nevertheless, it's important to
+									emphasize that researchers have complete freedom in how they utilize the dataset.
+								</p>
+
+								<h4>Dataset Flexibility</h4>
+
+								<p class="jtext">
+									The dataset consists of 12 scans - 11 training scans and 1 evaluation scan that is
+									unique among all scans as it uses a completely distinct set of node positions (i.e.
+									no position used in this scan was ever used in any of the training scans). This
+									deliberate separation ensures that the evaluation scan represents entirely unseen
+									deployment conditions, with no available training data for any of its positions,
+									making it ideal for unbiased evaluation of positioning methods. However, researchers
+									are welcome to utilize our dataset in various ways beyond the proposed evaluation
+									framework. For instance, the training data (but also the evaluation data) can be
+									used to develop custom ranging models suited for indoor environments. These might be
+									probabilistic models that capture the statistical nature of UWB ranging errors,
+									deterministic approaches that model specific environmental conditions, or any other
+									formulation that captures UWB signal behavior in indoor spaces.
+								</p>
+
+								<p class="jtext">
+									The dataset's flexibility extends to how nodes are utilized in positioning
+									scenarios. While our framework assigns the 40 utilized nodes to specific anchor and
+									agent groups of predefined sizes and involved measurements, researchers can
+									implement and assess alternative schemes. For example, when evaluating an
+									anchor-based positioning method, one could theoretically use up to 39 nodes as
+									anchors to localize a single node. Conversely, for cooperative positioning research,
+									all 39 nodes could be treated as neighbors with unknown positions, creating a
+									cooperative scenario of maximal neighbor availability. These examples illustrate how
+									the dataset supports research beyond the proposed standardized evaluation framework.
+								</p>
+
+								<hr />
+
+								<h3>Evaluation Framework Construction</h3>
+
+								<p class="jtext">
+									Using the <code>Rangings at Responders.pkl</code> measurements from the evaluation
+									scan, our framework generated
+									<a href="https://doi.org/10.5281/zenodo.14029378" target="_blank">standardized test scenarios</a>
+									that enable direct
+									comparisons between different positioning methods. The node positions used in these
+									scenarios is visualized in the deployment map showing candidate anchor positions in
+									yellow and candidate agent positions in green circles. This visual reference helps
+									in understanding the spatial distribution of nodes in the evaluation scenarios.
+								</p>
+
+								<div class="col-12">
+									<span class="image fit">
+										<img src="content/images/node_deployment.jpg" alt="Node Deployment Map" />
+									</span>
+								</div>
+
+								<p class="jtext">
+									The framework's evaluation scenarios have been constructed through three phases:
+								</p>
+
+								<h4>Phase 1: Anchor Group Selection</h4>
+
+								<p class="jtext">
+									Starting with the 40 sampling positions of the evaluation scan, the process divided
+									these into two disjoint supersets of 20 positions each - one for anchors and one for
+									agents. The anchor selection was performed first by identifying the optimal
+									20-anchor deployment that maximized the spatial dispersion. For that, all possible
+									combinations were evaluated, selecting the one that produced the maximum minimum
+									distance between any pair of anchors. This 20-anchor deployment became the superset
+									from which all smaller anchor configurations were derived - essentially, we first
+									established which 20 positions will serve as potential anchor positions throughout
+									all evaluations. The remaining 20 positions automatically formed the agent position
+									superset.
+								</p>
+
+								<p class="jtext">
+									After establishing this anchor/agent division, the process continued by selecting
+									optimal subsets of 16, 12, 8, 4, and 0 anchors from within the 20-anchor superset.
+									For each of these smaller group sizes (except from the case where there are no
+									anchors), we evaluated again all possible position combinations, computing the
+									minimum distance between any pair of anchors and selecting the configuration that
+									maximized this metric. This systematic approach guarantees that we maintain optimal
+									spatial coverage (reflecting typical real-world anchor deployment strategies that
+									aim for maximum coverage) while ensuring all evaluated configurations draw from the
+									same position superset for better comparability. The calculated groups are the
+									followings:
+								</p>
+
+								<table class="compact-table">
+									<thead>
+									<tr>
+										<th>Group Size</th>
+										<th>Anchor Positions</th>
+										<th>Min Distance (m)</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<td>20 (Superset)</td>
+										<td>9, 16, 28, 43, 48, 54, 60, 68, 81, 89, 90, 94, 109, 113, 117, 121, 139, 147, 155, 169</td>
+										<td>2.57</td>
+									</tr>
+									<tr>
+										<td>16</td>
+										<td>9, 16, 28, 43, 48, 60, 89, 90, 109, 113, 117, 121, 139, 147, 155, 169</td>
+										<td>3.87</td>
+									</tr>
+									<tr>
+										<td>12</td>
+										<td>9, 16, 28, 60, 81, 90, 113, 117, 121, 139, 155, 169</td>
+										<td>4.87</td>
+									</tr>
+									<tr>
+										<td>8</td>
+										<td>16, 28, 68, 90, 113, 117, 121, 155</td>
+										<td>6.97</td>
+									</tr>
+									<tr>
+										<td>4</td>
+										<td>9, 68, 113, 155</td>
+										<td>12.72</td>
+									</tr>
+									</tbody>
+								</table>
+
+								<h4>Phase 2: Agent Group Selection</h4>
+
+								<p class="jtext">
+									Using the remaining 20 positions which were designated for the agents' superset
+									<code>(i.e. 10, 18, 22, 27, 51, 57, 64, 71, 74, 86, 92, 104, 105, 112, 123, 143, 148, 149, 154, 163)</code>,
+									we produced for each group-size among 4, 7, 10, 13, 16, and 19 agents, upto (when
+									possible) 5000 different deployment combinations. Rather than selecting those 5000
+									cases randomly, we first determined all possible combinations for each size and
+									computed their corresponding mean pairwise distances. Then, we uniformly sampled
+									configurations across the range of possible mean distances to ensure the evaluation
+									framework tests positioning methods across a wide range of realistic deployment
+									patterns, from tightly clustered groups to widely dispersed configurations.
+								</p>
+
+								<h4>Phase 3: Scenario Construction</h4>
+
+								<p class="jtext">
+									The final phase involved combining all anchor and agent groups established in the
+									previous phases to create comprehensive evaluation scenarios. The framework
+									generated a total of <u>148260</u> unique test cases, derived from the combination
+									of 6 anchor group-sizes, 6 agent group-sizes, and up to 5000 different agent
+									deployments per agent group.
+								</p>
+
+								<p class="jtext">
+									For each <a href="https://doi.org/10.5281/zenodo.14029378" target="_blank">scenario</a>,
+									the framework offers relevant measurements from the TWR-Cloud
+									Bern evaluation scan (stored in <code>Rangings at Responders.pkl</code>). To assess
+									the impact of ranging quality on positioning performance, two measurement
+									configurations are proposed for implementation: <u>1) single-sample configuration</u>
+									(using an individual ranging measurement randomly sampled from the database), and
+									<u>2) multi-sample configuration</u> (using 10 ranging measurements randomly sampled
+									from the database). Moreover, to evaluate also the impact of nodes'
+									position-initialization conditions, each scenario offers two distinct starting
+									conditions: <u>1) origin initialization</u> (each node starting at the coordinate
+									system origin), and <u>2) random initialization</u> (each node starting at random
+									positions within the environment's boundaries).
+								</p>
+
+								<p class="jtext">
+									The framework provides standardized JSON configuration files for each evaluation
+									scenario, enabling systematic testing across three distinct localization approaches:
+									<u>1) Anchor-Free Cooperative Localization</u>,
+									<u>2) Anchor-Based Cooperative Localization</u>,
+									and <u>3) Anchor-Based non-Cooperative Localization</u>. Notably, the inclusion of a
+									zero-anchor group configuration in Phase 1 enables testing of anchor-free
+									localization scenarios, providing a complete spectrum of positioning approaches for
+									evaluation.
+								</p>
+
+								<hr>
+
+								<h3>Evaluation Scenario Format</h3>
+
+								Each <a href="https://doi.org/10.5281/zenodo.14029378" target="_blank">scenario</a> includes:
+								<ul>
+									<li>The node IDs of agents and anchors involved</li>
+									<li>True positions for all nodes (ground truth from LiDAR measurements)</li>
+									<li>Two iterations with:
+										<ul>
+											<li>Different initial positions for the agents (for both origin initialization and random initialization)</li>
+											<li>Different ToF ranging samples (for both single-sample and 10-sample measurements) between:
+												<ul>
+													<li>Agent-to-Agent pairs (for cooperative positioning)</li>
+													<li>Agent-to-Anchor pairs (for anchor-based positioning)</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+								</ul>
+
+								<br>
+
+								<h4>JSON Structure</h4>
+
+								<div class="compact-table">
+									<table>
+										<thead>
+										<tr>
+											<th>Field</th>
+											<th>Type</th>
+											<th>Description</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr>
+											<td><code>Agents</code></td>
+											<td>array[int]</td>
+											<td>List of node IDs for agents (nodes with unknown positions)</td>
+										</tr>
+										<tr>
+											<td><code>Anchors</code></td>
+											<td>array[int]</td>
+											<td>List of node IDs for anchors (reference nodes with known positions)</td>
+										</tr>
+										<tr>
+											<td><code>True Positions of Agents</code></td>
+											<td>object</td>
+											<td>Ground truth 3D positions for each agent</td>
+										</tr>
+										<tr>
+											<td><code>True Positions of Agents[node_id]</code></td>
+											<td>object</td>
+											<td>Position object containing x, y, z coordinates in centimeters</td>
+										</tr>
+										<tr>
+											<td><code>True Positions of Anchors</code></td>
+											<td>object</td>
+											<td>Ground truth 3D positions for each anchor</td>
+										</tr>
+										<tr>
+											<td><code>True Positions of Anchors[node_id]</code></td>
+											<td>object</td>
+											<td>Position object containing x, y, z coordinates in centimeters</td>
+										</tr>
+										<tr>
+											<td><code>Iterations</code></td>
+											<td>array[object]</td>
+											<td>Array of iteration objects with different ranging/initialization conditions</td>
+										</tr>
+										<tr>
+											<td><code>Iterations[i].ID</code></td>
+											<td>int</td>
+											<td>Iteration identifier</td>
+										</tr>
+										<tr>
+											<td><code>Iterations[i].Initial positions of Agents</code></td>
+											<td>object</td>
+											<td>Starting positions for agents in this iteration</td>
+										</tr>
+										<tr>
+											<td><code>Iterations[i].Initial positions of Agents[node_id]</code></td>
+											<td>object</td>
+											<td>Initial x, y, z coordinates for each agent</td>
+										</tr>
+										<tr>
+											<td><code>Iterations[i].Ranging samples between Agents</code></td>
+											<td>object</td>
+											<td>ToF measurements between agent pairs</td>
+										</tr>
+										<tr>
+											<td><code>Iterations[i].Ranging samples between Agents[id1-id2]</code></td>
+											<td>object</td>
+											<td>Contains <code>1</code> (single sample) and <code>10</code> (array of samples) ToF measurements</td>
+										</tr>
+										<tr>
+											<td><code>Iterations[i].Ranging samples to Anchors</code></td>
+											<td>object</td>
+											<td>ToF measurements between agents and anchors</td>
+										</tr>
+										<tr>
+											<td><code>Iterations[i].Ranging samples to Anchors[agent_id-anchor_id]</code></td>
+											<td>object</td>
+											<td>Contains <code>1</code> (single sample) and <code>10</code> (array of samples) ToF measurements</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<div class="note">
+									<h4>Notes:</h4>
+									<ul>
+										<li>When a ranging measurement is not available (e.g., due to obstacles or distance), both the single sample and 10-sample array are set to <code>null</code></li>
+										<li>The first iteration (<code>ID: 1</code>) always initializes agents at the origin</li>
+										<li>Ranging samples are directional (i.e. rangings between nodes A,B differ from rangings between nodes B,A)</li>
+									</ul>
+								</div>
+
+								<hr />
+
+								<h3>Loading an evaluation scenario</h3>
+
+								<p>The dataset can be loaded in Python using the pickle module:</p>
+
+							</div>
+						</section>
+					</article>
+
+				<!-- CTA -->
+				<section class="wrapper style4">
+					<div class="inner" style="display: flex; align-items: center;">
+						<div class="text-content" style="flex: 1; text-align: right; padding-right: 20px;">
+							<header>
+								<h2>Contact</h2>
+								<p>firstname.lastname@unibe.ch</p>
+								<a href="content/twrcloudbern2024.bib" download="twrcloudbern2024.bib">BibTeX entry</a>
+							</header>
+						</div>
+						<div class="image-container" style="display: flex; justify-content: flex-start; gap: 20px;">
+							<div style="text-align: center;">
+								<img src="content/images/authors/Xenakis.png" alt="Dimitrios Xenakis" style="width: auto; height: 150px;">
+							</div>
+							<div style="text-align: center;">
+								<img src="content/images/authors/DiMaio.png" alt="Antonio Di Maio" style="width: auto; height: 150px;">
+							</div>
+							<div style="text-align: center;">
+								<img src="content/images/authors/Braun.png" alt="Torsten Braun" style="width: auto; height: 150px;">
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
