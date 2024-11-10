@@ -10,5 +10,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="4b003774ba95cd7f0fa1c6cf7aae198c" level="application" />
     <orderEntry type="library" name="2e9040e3b59e85c61cc69d18fac66cd4" level="application" />
+    <orderEntry type="library" name="highlight.js" level="application" />
   </component>
 </module>
